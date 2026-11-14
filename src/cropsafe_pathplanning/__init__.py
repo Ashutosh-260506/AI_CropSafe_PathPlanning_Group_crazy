@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-"""Crop-safe grid path-planning demonstration."""
 
-__version__ = "0.1.0"
-=======
 """CropSafe Path Planning: AI search algorithms for agricultural field robotics.
 
 This package provides grid representations, heuristics, and search algorithms
