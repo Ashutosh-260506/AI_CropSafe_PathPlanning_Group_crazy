@@ -1,1 +1,2 @@
-# Runtime dependencies will be listed here when the implementation chooses them.
+# Development and testing dependencies
+pytest>=7.0.0
