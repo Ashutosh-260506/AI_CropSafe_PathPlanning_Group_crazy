@@ -1,1 +1,1 @@
-# Runtime dependencies will be listed here when the implementation chooses them.
+# The starter implementation uses only the Python standard library.

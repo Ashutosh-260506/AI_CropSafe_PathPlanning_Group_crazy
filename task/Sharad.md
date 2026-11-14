@@ -22,11 +22,14 @@ Own the unknown-obstacle simulation and A* replanning (Member 5), plus integrati
 - Save representative output screenshots in `results/screenshots/` and finish setup/run documentation in the root README.
 - Maintain the team contribution record and add full official names and roll numbers once supplied.
 
-## Acceptance evidence
+## Completion record
 
-- The hidden obstacle is absent from the initial known map, discovered during the simulated run, and causes a map update and replan when it blocks the route.
-- Evaluation compares all algorithms on documented, repeatable inputs and reports failures honestly.
-- A new teammate can set up and run the finished project from the README.
+- [x] The hidden obstacle is absent from the initial known map, discovered during the simulated run, and causes a map update and replan from the current position.
+- [x] Evaluation records path length/cost, expanded nodes, execution time, goal status, and replanning count.
+- [x] Field/path visualizations and CSV summaries are generated from the documented demo command.
+- [x] README includes setup, run, output, and focused test instructions.
+- [ ] Team integration review remains for when teammates deliver their assigned modules.
+- [ ] Add official names and roll numbers when provided; score contribution after the team reviews completed work.
 
 ## Contribution score
 

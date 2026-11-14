@@ -2,14 +2,16 @@
 
 This division follows the supplied assignment's suggested responsibilities, grouped into six deliverables. Each member should be able to explain the overall approach as well as their own work.
 
-| Member | Assignment scope | Main deliverables | Work score |
-|---|---|---|---|
-| Hitesh (Member 1) | Field environment and problem formulation | Grid/map model, field symbols and scenario, initial state/actions/transition/goal/cost documentation | Pending review: ___ / 100 |
-| Dushyant (Member 2) | BFS and DFS | Both search implementations, shared result format, correctness notes for path completeness/optimality | Pending review: ___ / 100 |
-| Ricky (Member 3) | Greedy Best-First Search and heuristic design | Greedy implementation, Manhattan heuristic, explanation of assumptions and limitations | Pending review: ___ / 100 |
-| Aashutosh (Member 4) | A* and crop-safe cost | A* implementation, crop buffer/proximity penalty model, examples showing safer route preference | Pending review: ___ / 100 |
-| Sharad (Member 5) | Unknown-obstacle detection and replanning | Hidden obstacle scenario, simulated detection, known-map update, A* replanning and replan count | Pending review: ___ / 100 |
-| Sharad (Member 6) | Testing, visualization, evaluation, and documentation | Integrate modules, field/path visualization, algorithm comparison table, screenshots, README and final contribution record | Pending review: ___ / 100 |
+| Member | Assignment scope | Main deliverables | Status | Work score |
+|---|---|---|---|---|
+| Hitesh (Member 1) | Field environment and problem formulation | Grid/map model, field symbols and scenario, initial state/actions/transition/goal/cost documentation | Awaiting work in this repo | 0 / 100 repo-progress points |
+| Dushyant (Member 2) | BFS and DFS | Both search implementations, shared result format, correctness notes for path completeness/optimality | Awaiting work in this repo | 0 / 100 repo-progress points |
+| Ricky (Member 3) | Greedy Best-First Search and heuristic design | Greedy implementation, Manhattan heuristic, explanation of assumptions and limitations | Awaiting work in this repo | 0 / 100 repo-progress points |
+| Aashutosh (Member 4) | A* and crop-safe cost | A* implementation, crop buffer/proximity penalty model, examples showing safer route preference | Awaiting work in this repo | 0 / 100 repo-progress points |
+| Sharad (Member 5) | Unknown-obstacle detection and replanning | Hidden obstacle scenario, simulated detection, known-map update, A* replanning and replan count | Complete: hidden obstacle detected; one replan; goal reached | 90 / 100 provisional |
+| Sharad (Member 6) | Testing, visualization, evaluation, and documentation | Integration runner, field/path visualization, algorithm comparison, output files, README and focused checks | Implementation complete; peer integration review pending | 85 / 100 provisional |
+
+Sharad's completion evidence: `src/cropsafe_pathplanning/replanning.py`, `tests/test_replanning.py` (2 checks passing), `results/algorithm_comparison.csv`, `results/replanning_summary.csv`, `results/screenshots/`, and the root `README.md`. Final integration review depends on the other members' implementations being delivered.
 
 ## Shared interface and integration expectations
 
@@ -18,11 +20,11 @@ This division follows the supplied assignment's suggested responsibilities, grou
 - Report no-path cases clearly. Do not count a failed route as a successful zero-length path.
 - Use the same start, goal, known obstacles, and cost settings when comparing algorithms. Record any settings that differ.
 - Keep the true map and robot-known map distinct for the unknown-obstacle experiment.
-- Review each other's work and ensure the complete program runs from the documented setup before submission.
+- Review each other's work and ensure the complete program runs from the documented setup before submission. Sharad's integration runner currently uses the shared starter modules; peer review against the members' implementations is pending.
 
 ## Score rubric (suggested)
 
-Scores are left pending because the work has not been completed yet.
+The table is a provisional repository-progress score based only on deliverables visible in this repo as of this update. The four 0 scores mean no deliverable for that scope is recorded here yet; they are not a judgment about work outside the repo. Sharad's scores reflect completed work with peer integration review still pending. The team should revise these provisional scores after reviewing each member's work and contribution evidence.
 
 | Criterion | Weight |
 |---|---:|

@@ -1,0 +1,5 @@
+Algorithm,Path length (steps),Path cost,Expanded nodes,Time (ms),Reached goal
+BFS,17,37.00,151,0.322,True
+DFS,29,31.00,140,0.323,True
+Greedy,19,31.00,22,0.172,True
+A*,23,27.00,110,0.649,True
