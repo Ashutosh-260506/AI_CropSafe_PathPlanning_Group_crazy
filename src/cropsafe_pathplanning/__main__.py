@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 """Run the crop-safe path-planning demo and write evaluation artifacts."""
 
 from __future__ import annotations
@@ -45,6 +46,11 @@ def main() -> None:
         writer.writerow([";".join(map(str, online.detected_obstacles)), online.replans, max(0, len(online.final_path) - 1), online.total_expanded_nodes, f"{online.total_planning_seconds * 1000:.3f}", online.reached_goal])
     print(f"\nSaved CSV summaries and plots under {RESULTS.relative_to(ROOT)}/")
 
+=======
+"""Package entry point for `python -m cropsafe_pathplanning`."""
+
+from cropsafe_pathplanning.demo import main
+>>>>>>> ricky
 
 if __name__ == "__main__":
     main()

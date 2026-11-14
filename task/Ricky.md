@@ -14,9 +14,11 @@ Implement Greedy Best-First Search and define the informed-search heuristic.
 
 ## Acceptance evidence
 
-- The heuristic returns zero at the goal and a nonnegative estimate elsewhere.
-- The algorithm reaches valid goals when a route exists and handles no-route cases.
-- Its output can be compared with BFS, DFS, and A* on the same scenario.
+- The heuristic returns zero at the goal and a nonnegative estimate elsewhere (verified in `tests/test_heuristic.py`).
+- The algorithm reaches valid goals when a route exists and handles no-route cases (verified in `tests/test_gbfs.py`).
+- Its output strictly follows the shared result format (`path`, `cost`, `expanded_nodes`, `reached_goal`) and can be directly compared with BFS, DFS, and A* on identical scenarios.
+- Comprehensive technical documentation completed in `docs/GREEDY_BEST_FIRST_SEARCH.md`.
+- Reproducible demonstrations (Examples A and B) available via `python -m cropsafe_pathplanning`.
 
 ## Contribution score
 

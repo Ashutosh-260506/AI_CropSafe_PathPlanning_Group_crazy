@@ -1,1 +1,6 @@
+<<<<<<< HEAD
 # The starter implementation uses only the Python standard library.
+=======
+# Development and testing dependencies
+pytest>=7.0.0
+>>>>>>> ricky
