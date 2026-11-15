@@ -5,13 +5,15 @@ This division follows the supplied assignment's suggested responsibilities, grou
 | Member | Assignment scope | Main deliverables | Status | Work score |
 |---|---|---|---|---|
 | Hitesh (Member 1) | Field environment and problem formulation | Grid/map model, field symbols and scenario, initial state/actions/transition/goal/cost documentation | Awaiting work in this repo | 0 / 100 repo-progress points |
-| Dushyant (Member 2) | BFS and DFS | Both search implementations, shared result format, correctness notes for path completeness/optimality | Awaiting work in this repo | 0 / 100 repo-progress points |
+| Dushyant (Member 2) | BFS and DFS | Both search implementations, shared result format, correctness notes for path completeness/optimality | Complete: BFS & DFS implemented; 25/25 tests pass; docs written | 90 / 100 provisional |
 | Ricky (Member 3) | Greedy Best-First Search and heuristic design | Greedy implementation, Manhattan heuristic, explanation of assumptions and limitations | Awaiting work in this repo | 0 / 100 repo-progress points |
 | Aashutosh (Member 4) | A* and crop-safe cost | A* implementation, crop buffer/proximity penalty model, examples showing safer route preference | Awaiting work in this repo | 0 / 100 repo-progress points |
 | Sharad (Member 5) | Unknown-obstacle detection and replanning | Hidden obstacle scenario, simulated detection, known-map update, A* replanning and replan count | Complete: hidden obstacle detected; one replan; goal reached | 90 / 100 provisional |
 | Sharad (Member 6) | Testing, visualization, evaluation, and documentation | Integration runner, field/path visualization, algorithm comparison, output files, README and focused checks | Implementation complete; peer integration review pending | 85 / 100 provisional |
 
 Sharad's completion evidence: `src/cropsafe_pathplanning/replanning.py`, `tests/test_replanning.py` (2 checks passing), `results/algorithm_comparison.csv`, `results/replanning_summary.csv`, `results/screenshots/`, and the root `README.md`. Final integration review depends on the other members' implementations being delivered.
+
+Dushyant's completion evidence: `src/cropsafe_pathplanning/bfs_dfs.py` (BFS + DFS, shared `FieldMap`/`SearchResult` interface, no field mutation, `raise_on_invalid` flag, optional `cost_fn`), `tests/test_bfs_dfs.py` (25 tests, all passing — reachable, unreachable, optimality, obstacle avoidance, reproducibility, traceability, demo field), `docs/BFS_DFS.md` (algorithm theory, API reference, 4 reproducible examples). Reviewer: pending peer review.
 
 ## Shared interface and integration expectations
 

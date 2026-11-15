@@ -29,4 +29,13 @@ __all__ = [
     "Coordinate",
     "CARDINAL_DIRECTIONS",
 ]
->>>>>>> ricky
+
+from cropsafe_pathplanning.bfs_dfs import (
+    breadth_first_search,
+    depth_first_search,
+)
+
+__all__ += [
+    "breadth_first_search",
+    "depth_first_search",
+]
