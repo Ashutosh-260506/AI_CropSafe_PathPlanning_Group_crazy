@@ -1,4 +1,4 @@
-# Aashutosh — Member 4
+# Ashutosh — Member 4
 
 ## Scope
 
