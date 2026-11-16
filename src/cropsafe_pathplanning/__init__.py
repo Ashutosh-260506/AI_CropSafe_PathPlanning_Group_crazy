@@ -39,3 +39,15 @@ __all__ += [
     "breadth_first_search",
     "depth_first_search",
 ]
+
+from cropsafe_pathplanning.astar import (
+    a_star_search,
+    crop_safe_step_cost,
+    make_crop_safe_cost_fn,
+)
+
+__all__ += [
+    "a_star_search",
+    "crop_safe_step_cost",
+    "make_crop_safe_cost_fn",
+]
