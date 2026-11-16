@@ -22,6 +22,7 @@ from __future__ import annotations
 import math
 from pathlib import Path
 import sys
+from typing import Any
 import unittest
 
 # Ensure src is on sys.path for direct test invocation
@@ -250,7 +251,8 @@ class TestAStar(unittest.TestCase):
             a_star_search(field_map, start=(0, 0), goal=(8, 8), raise_on_invalid=True)
 
         with self.assertRaises(TypeError):
-            a_star_search(field_map, start="invalid", goal=(4, 4), raise_on_invalid=True)  # type: ignore
+            invalid_start: Any = "invalid"
+            a_star_search(field_map, start=invalid_start, goal=(4, 4), raise_on_invalid=True)
 
     # -----------------------------------------------------------------------
     # Reproducibility & Field Immutability
@@ -317,12 +319,13 @@ class TestAStar(unittest.TestCase):
         self.assertEqual(cost_fn((0, 0), (0, 1)), 1.0)
 
     def test_crop_safe_cost_rejects_invalid_penalty_and_base(self) -> None:
+        empty_protected: set[Coordinate] = set()
         with self.assertRaises(ValueError):
-            crop_safe_step_cost((0, 0), set(), risk_penalty=-0.1)
+            crop_safe_step_cost((0, 0), empty_protected, risk_penalty=-0.1)
         with self.assertRaises(ValueError):
-            crop_safe_step_cost((0, 0), set(), base_cost=0.5)
+            crop_safe_step_cost((0, 0), empty_protected, base_cost=0.5)
         with self.assertRaises(ValueError):
-            crop_safe_step_cost((0, 0), set(), risk_penalty=float("nan"))
+            crop_safe_step_cost((0, 0), empty_protected, risk_penalty=float("nan"))
 
     # -----------------------------------------------------------------------
     # Optimality vs Greedy Best-First Search Contrast
