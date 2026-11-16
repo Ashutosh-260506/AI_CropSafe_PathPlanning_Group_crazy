@@ -141,6 +141,11 @@ class SearchResult(BaseSearchResult):
         return max(0, len(p) - 1) if p else 0
 
     @property
+    def expanded_nodes(self) -> Any:
+        """Coordinates expanded during search, represented as dual-nature ExpandedNodeList."""
+        return self["expanded_nodes"]
+
+    @property
     def expanded_count(self) -> int:
         """Total count of expanded nodes."""
         return len(self.expanded_nodes)

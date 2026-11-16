@@ -193,7 +193,7 @@ class TestAStar(unittest.TestCase):
         field = Field(height=4, width=4, start=(0, 0), goal=(3, 3))
         result = a_star_search(field)
 
-        expanded = result.expanded_nodes
+        expanded: Any = result.expanded_nodes
         # Behaves as list and ExpandedNodeList
         self.assertIsInstance(expanded, list)
         self.assertIsInstance(expanded, ExpandedNodeList)
