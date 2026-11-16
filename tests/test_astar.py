@@ -20,7 +20,12 @@ Coverage:
 from __future__ import annotations
 
 import math
+from pathlib import Path
+import sys
 import unittest
+
+# Ensure src is on sys.path for direct test invocation
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from cropsafe_pathplanning.astar import (
     ExpandedNodeList,
@@ -61,7 +66,7 @@ class TestAStar(unittest.TestCase):
             start=(2, 0),
             goal=(2, 6),
         )
-        result = a_star_search(field)
+        result = a_star_search(field, heuristic_fn=manhattan_distance)
 
         self.assertTrue(result.reached_goal)
         self.assertEqual(result.path[0], field.start)
@@ -162,6 +167,8 @@ class TestAStar(unittest.TestCase):
         field = Field(height=4, width=4, start=(0, 0), goal=(3, 3))
         result = a_star_search(field)
 
+        self.assertIsInstance(result, SearchResult)
+
         # Dict keys check
         for key in ("path", "cost", "expanded_nodes", "reached_goal"):
             self.assertIn(key, result)
@@ -186,8 +193,9 @@ class TestAStar(unittest.TestCase):
         result = a_star_search(field)
 
         expanded = result.expanded_nodes
-        # Behaves as list
+        # Behaves as list and ExpandedNodeList
         self.assertIsInstance(expanded, list)
+        self.assertIsInstance(expanded, ExpandedNodeList)
         self.assertGreater(len(expanded), 0)
         self.assertIsInstance(expanded[0], tuple)
         self.assertEqual(len(expanded[0]), 2)
@@ -242,7 +250,7 @@ class TestAStar(unittest.TestCase):
             a_star_search(field_map, start=(0, 0), goal=(8, 8), raise_on_invalid=True)
 
         with self.assertRaises(TypeError):
-            a_star_search(field_map, start="invalid", goal=(4, 4), raise_on_invalid=True)  # type: ignore[arg-type]
+            a_star_search(field_map, start="invalid", goal=(4, 4), raise_on_invalid=True)  # type: ignore
 
     # -----------------------------------------------------------------------
     # Reproducibility & Field Immutability
