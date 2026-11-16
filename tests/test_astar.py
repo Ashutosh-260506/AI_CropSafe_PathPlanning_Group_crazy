@@ -316,6 +316,14 @@ class TestAStar(unittest.TestCase):
         self.assertEqual(cost_fn((0, 0), (1, 2)), 3.5)
         self.assertEqual(cost_fn((0, 0), (0, 1)), 1.0)
 
+    def test_crop_safe_cost_rejects_invalid_penalty_and_base(self) -> None:
+        with self.assertRaises(ValueError):
+            crop_safe_step_cost((0, 0), set(), risk_penalty=-0.1)
+        with self.assertRaises(ValueError):
+            crop_safe_step_cost((0, 0), set(), base_cost=0.5)
+        with self.assertRaises(ValueError):
+            crop_safe_step_cost((0, 0), set(), risk_penalty=float("nan"))
+
     # -----------------------------------------------------------------------
     # Optimality vs Greedy Best-First Search Contrast
     # -----------------------------------------------------------------------

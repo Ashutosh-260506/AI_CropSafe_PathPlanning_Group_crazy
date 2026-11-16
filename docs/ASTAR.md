@@ -171,7 +171,7 @@ In `tests/test_astar.py` (`test_astar_cost_optimality_vs_gbfs`):
 
 ## 7. Verification and Acceptance Evidence
 
-The comprehensive test suite in [tests/test_astar.py](file:///c:/Users/ASHUTOSH%20KUMAR/OneDrive/Desktop/AI%20LAB%20Eval/AI_CropSafe_PathPlanning_Group_crazy/tests/test_astar.py) covers all 16 test cases:
+The test suite in [`tests/test_astar.py`](../tests/test_astar.py) covers the A* behavior and public API:
 
 | Test Method | Description | Status |
 | :--- | :--- | :--- |
@@ -191,6 +191,7 @@ The comprehensive test suite in [tests/test_astar.py](file:///c:/Users/ASHUTOSH%
 | `test_crop_safe_cost_functions_standalone` | Tests `crop_safe_step_cost` and `make_crop_safe_cost_fn`. | Pass |
 | `test_astar_cost_optimality_vs_gbfs` | Contrasts A* cost-optimality with GBFS proximity trap. | Pass |
 | `test_interoperability_fieldmap_and_field` | Confirms identical optimal costs on `Field` and `FieldMap`. | Pass |
+| `test_crop_safe_cost_rejects_invalid_penalty_and_base` | Rejects values that invalidate the Manhattan cost assumptions. | Pass |
 
 Run the test suite using:
 ```bash

@@ -76,8 +76,8 @@ FIELD_CONFIG: dict[str, Any] = {
     "crop_rows": frozenset(
         (r, c) for r in (3, 8) for c in range(1, 17)
     ),
-    # Protected buffer cells — subset of crop_rows that are enforced as
-    # blocked in the Field model (protected ⊆ crop_rows for the demo field).
+    # Protected cells — subset of crop_rows and blocked. Adjacent traversable
+    # cells receive a proximity penalty.
     # Band A: row 3, cols 2–15
     # Band B: row 8, cols 2–15
     "protected": frozenset(
@@ -102,7 +102,7 @@ FIELD_CONFIG: dict[str, Any] = {
 def make_field():  # type: ignore[return]
     """Return a ``Field`` dataclass populated from ``FIELD_CONFIG``.
 
-    Use this with the unified ``search.py`` / ``replanning.py`` modules.
+    Use this with the A*, evaluation, and replanning modules.
 
     Returns
     -------
@@ -138,7 +138,7 @@ def make_field_map():
     from cropsafe_pathplanning.types import FieldMap
 
     cfg = FIELD_CONFIG
-    blocked = set(cfg["protected"]) | set(cfg["obstacles"])
+    blocked = set(cfg["crop_rows"]) | set(cfg["protected"]) | set(cfg["obstacles"])
     return FieldMap(
         height=cfg["height"],
         width=cfg["width"],
@@ -159,7 +159,7 @@ def make_field_map_with_hidden():
     from cropsafe_pathplanning.types import FieldMap
 
     cfg = FIELD_CONFIG
-    blocked = set(cfg["protected"]) | set(cfg["obstacles"]) | {cfg["hidden_obstacle"]}
+    blocked = set(cfg["crop_rows"]) | set(cfg["protected"]) | set(cfg["obstacles"]) | {cfg["hidden_obstacle"]}
     return FieldMap(
         height=cfg["height"],
         width=cfg["width"],

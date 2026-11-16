@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, replace
 
 from .model import Field, Position
-from .search import SearchResult, a_star_search
+from .astar import SearchResult, a_star_search
 
 
 @dataclass
@@ -34,7 +34,7 @@ def simulate_replanning(known_field: Field, true_obstacles: set[Position]) -> Re
     while current != known_field.goal:
         current_map = replace(known_field, start=current, obstacles=set(known_obstacles))
         result: SearchResult = a_star_search(current_map)
-        expanded_total += result.expanded_nodes
+        expanded_total += int(result.expanded_nodes)
         planning_seconds += result.elapsed_seconds
         if not result.reached_goal:
             return ReplanningResult(full_route, replans, detected, False, expanded_total, planning_seconds)

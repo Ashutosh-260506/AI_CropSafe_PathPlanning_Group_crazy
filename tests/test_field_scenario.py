@@ -126,6 +126,10 @@ class TestMakeField(unittest.TestCase):
         for pos in self.field.protected:
             self.assertIn(pos, self.field.blocked)
 
+    def test_crop_row_cells_blocked(self) -> None:
+        for pos in self.field.crop_rows:
+            self.assertIn(pos, self.field.blocked)
+
     def test_obstacle_cells_blocked(self) -> None:
         for pos in self.field.obstacles:
             self.assertIn(pos, self.field.blocked)
@@ -189,6 +193,10 @@ class TestMakeFieldMap(unittest.TestCase):
         for pos in FIELD_CONFIG["protected"]:
             self.assertTrue(self.fmap.is_blocked(pos), f"{pos} should be blocked")
 
+    def test_crop_row_cells_blocked(self) -> None:
+        for pos in FIELD_CONFIG["crop_rows"]:
+            self.assertTrue(self.fmap.is_blocked(pos), f"{pos} should be blocked")
+
     def test_obstacles_blocked(self) -> None:
         for pos in FIELD_CONFIG["obstacles"]:
             self.assertTrue(self.fmap.is_blocked(pos), f"{pos} should be blocked")
@@ -198,8 +206,8 @@ class TestMakeFieldMap(unittest.TestCase):
         self.assertFalse(self.fmap.is_blocked(hidden))
 
     def test_blocked_count(self) -> None:
-        # protected (28) + obstacles (4) = 32 unique blocked cells
-        self.assertEqual(len(self.fmap.blocked_cells), 32)
+        # crop rows (32) + obstacles (4) = 36 unique blocked cells
+        self.assertEqual(len(self.fmap.blocked_cells), 36)
 
     def test_four_directional_neighbors(self) -> None:
         """get_neighbors must return only cardinal neighbours."""

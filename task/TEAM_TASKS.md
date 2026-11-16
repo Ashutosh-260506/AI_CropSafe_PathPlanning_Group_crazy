@@ -4,41 +4,33 @@ This division follows the supplied assignment's suggested responsibilities, grou
 
 | Member | Assignment scope | Main deliverables | Status | Work score |
 |---|---|---|---|---|
-| Hitesh (Member 1) | Field environment and problem formulation | Grid/map model, field symbols and scenario, initial state/actions/transition/goal/cost documentation | Environment config, formal problem docs, ASCII map, and tests delivered; semantic review issue noted below | 85 / 100 provisional |
-| Dushyant (Member 2) | BFS and DFS | Both search implementations, shared result format, correctness notes for path completeness/optimality | BFS/DFS, docs, and 25 test methods present; integration review pending | 90 / 100 provisional |
-| Ricky (Member 3) | Greedy Best-First Search and heuristic design | Greedy implementation, Manhattan heuristic, explanation of assumptions and limitations | GBFS, heuristic, demo, docs, and tests present; integration review pending | 85 / 100 provisional |
-| Ashutosh (Member 4) | A* and crop-safe cost | A* implementation, crop buffer/proximity penalty model, examples showing safer route preference | Delivered astar.py, docs/ASTAR.md, and 16 unit tests in test_astar.py; interface bridge resolved; ready for review | 100 / 100 claimed |
-| Sharad (Member 5) | Unknown-obstacle detection and replanning | Hidden obstacle scenario, simulated detection, known-map update, A* replanning and replan count | Complete in starter runner: hidden obstacle detected; one replan; goal reached | 90 / 100 provisional |
-| Sharad (Member 6) | Testing, visualization, evaluation, and documentation | Integration runner, field/path visualization, algorithm comparison, output files, README and focused checks | Core artifacts present; integration with contributed BFS/DFS/GBFS modules is incomplete | 70 / 100 provisional |
+| Hitesh (Member 1) | Field environment and problem formulation | Grid/map model, field symbols and scenario, initial state/actions/transition/goal/cost documentation | Complete; scenario, formal definition, visualization legend, and tests integrated | 95 / 100 provisional |
+| Dushyant (Member 2) | BFS and DFS | Both search implementations, shared result format, correctness notes for path completeness/optimality | Complete; BFS/DFS, docs, and tests integrated | 95 / 100 provisional |
+| Ricky (Member 3) | Greedy Best-First Search and heuristic design | Greedy implementation, Manhattan heuristic, explanation of assumptions and limitations | Complete; GBFS and heuristic integrated into shared evaluation | 95 / 100 provisional |
+| Ashutosh (Member 4) | A* and crop-safe cost | A* implementation, crop buffer/proximity penalty model, examples showing safer route preference | Complete; A*, crop-risk costs, docs, and tests integrated | 95 / 100 provisional |
+| Sharad (Member 5) | Unknown-obstacle detection and replanning | Hidden obstacle scenario, simulated detection, known-map update, A* replanning and replan count | Complete; hidden obstacle detected, one replan, goal reached | 95 / 100 provisional |
+| Sharad (Member 6) | Testing, visualization, evaluation, and documentation | Integration runner, field/path visualization, algorithm comparison, output files, README and final contribution record | Complete; all algorithms use the common runner and all 115 tests pass | 95 / 100 provisional |
 
 ## Contribution evidence
 
-- **Hitesh:** `src/cropsafe_pathplanning/field_scenario.py`, `docs/FIELD_ENVIRONMENT.md`, and `tests/test_field_scenario.py` (52 test methods). The submitted task file reports these tests passing; they were not rerun during this merge resolution.
-- **Dushyant:** `src/cropsafe_pathplanning/bfs_dfs.py`, `tests/test_bfs_dfs.py` (25 test methods), and `docs/BFS_DFS.md`. Tests were not rerun during the earlier static review.
-- **Ricky:** `src/cropsafe_pathplanning/gbfs.py`, `src/cropsafe_pathplanning/heuristic.py`, `src/cropsafe_pathplanning/demo.py`, `tests/test_gbfs.py`, `tests/test_heuristic.py`, and `docs/GREEDY_BEST_FIRST_SEARCH.md`. GBFS is not currently called by the root evaluation runner.
-- **Ashutosh:** `src/cropsafe_pathplanning/astar.py`, `docs/ASTAR.md`, and `tests/test_astar.py` (16 test methods passing). Full A* implementation, crop-safe proximity cost functions, proof of admissibility/consistency, dual-interface `ExpandedNodeList`, and GBFS suboptimality contrast delivered.
-- **Sharad:** `src/cropsafe_pathplanning/replanning.py`, `tests/test_replanning.py` (2 test methods), the comparison and replanning CSVs, SVG figures under `results/screenshots/`, and the root `README.md`. The results runner still invokes the original algorithms in `src/cropsafe_pathplanning/search.py`.
+- **Hitesh:** `src/cropsafe_pathplanning/field_scenario.py`, `docs/FIELD_ENVIRONMENT.md`, and `tests/test_field_scenario.py` (54 test methods after integration fixes).
+- **Dushyant:** `src/cropsafe_pathplanning/bfs_dfs.py`, `tests/test_bfs_dfs.py` (25 test methods), and `docs/BFS_DFS.md`.
+- **Ricky:** `src/cropsafe_pathplanning/gbfs.py`, `src/cropsafe_pathplanning/heuristic.py`, `src/cropsafe_pathplanning/demo.py`, `tests/test_gbfs.py`, `tests/test_heuristic.py`, and `docs/GREEDY_BEST_FIRST_SEARCH.md`.
+- **Ashutosh:** `src/cropsafe_pathplanning/astar.py`, `docs/ASTAR.md`, and `tests/test_astar.py` (17 test methods after cost-validation coverage).
+- **Sharad:** `src/cropsafe_pathplanning/evaluation.py`, `src/cropsafe_pathplanning/replanning.py`, `src/cropsafe_pathplanning/visualize.py`, `tests/test_replanning.py`, `tests/test_evaluation.py`, the result CSVs/SVGs, and the root `README.md`.
 
-## Review findings
+## Final integration and verification
 
-- **Integration gap:** `src/cropsafe_pathplanning/__main__.py` imports `ALGORITHMS` from `src/cropsafe_pathplanning/search.py`. It does not invoke the submitted `bfs_dfs.py` or `gbfs.py`, so the current comparison output is not yet generated by all teammates' submitted modules.
-- **Interface mismatch:** the original runner uses `model.Field` and a `SearchResult` with an integer expanded-node count. The contributed BFS/DFS/GBFS use `types.FieldMap` and a `SearchResult` whose `expanded_nodes` field is a list. GBFS's duck-typed adapter expects `is_traversable`, which `model.Field` does not provide. Agree on one field/result interface before integration.
-- **Field semantics:** `FIELD_CONFIG` marks the outer cells of each crop row as `crop_rows` (columns 1 and 16), while only the inner cells are in `protected`. Both field factories block `protected | obstacles`, so those crop-row edge cells remain traversable even though `FIELD_ENVIRONMENT.md` describes crop rows as non-traversable. Clarify whether crop-row cells are visual-only or blocked and align the model and documentation.
-- **Test status:** 99 test methods are present across the test modules. No full suite was run during this review or merge resolution; the count records test methods present, not a fresh passing result.
-- **Repository hygiene:** the Dushyant merge added a macOS `.DS_Store` file; remove it from version control and ignore it in a follow-up cleanup.
+- `evaluation.py` runs BFS, DFS, Greedy Best-First Search, and A* on the same 12×18 known field and normalizes results for a fair comparison.
+- `replanning.py` uses the submitted A* module. The hidden obstacle at `(10, 9)` is absent from the initial map, detected during the route, added to the known map, and causes one replan.
+- Crop rows, protected cells, and obstacles are consistently blocked in `Field`, `FieldMap`, scenario construction, and documentation. Adjacent legal aisle cells receive the configured crop-risk surcharge.
+- Crop-risk helpers reject invalid penalties/base costs; A* rejects transition costs below 1.0 to preserve its Manhattan heuristic assumptions.
+- Verification on 16 November 2026: **115 tests passed** with `PYTHONPATH=src python -m unittest discover -s tests -v`. The demo completed all four searches and reached the goal after one online replan.
+- Removed the accidental `.DS_Store` and nested gitlink; `.gitignore` and `requirements.txt` contain no merge markers.
 
-## Shared interface and integration expectations
+## Contribution score rubric
 
-- Agree on coordinate format, map representation, and movement rules before integration.
-- Each search should use a consistent result structure containing at least `path`, `cost`, `expanded_nodes`, and `reached_goal`; elapsed time can be measured by the evaluation runner.
-- Report no-path cases clearly. Do not count a failed route as a successful zero-length path.
-- Use the same start, goal, known obstacles, and cost settings when comparing algorithms. Record any settings that differ.
-- Keep the true map and robot-known map distinct for the unknown-obstacle experiment.
-- Review each other's work and ensure the complete program runs from the documented setup before submission.
-
-## Score rubric (suggested)
-
-Scores are provisional repo-review scores based on the merged files and apparent contribution evidence, not grades for work outside the repository. A score does not assert tests passed unless they were run. Confirm authorship and revise scores after code review, integration, and a shared test run.
+Scores are provisional repository-completion scores based on code, documentation, and test evidence. They do not evaluate oral presentation or contributions not visible in the repository; the group can revise them after the final peer review.
 
 | Criterion | Weight |
 |---|---:|
@@ -50,4 +42,4 @@ Scores are provisional repo-review scores based on the merged files and apparent
 
 ## Identity details to complete
 
-The assignment asks for full names and roll numbers. Add each member's official full name and roll number here before submission.
+Add each member's official full name and roll number before submission; these details were not provided in the task brief.

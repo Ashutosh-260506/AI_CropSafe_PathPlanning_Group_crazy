@@ -28,7 +28,7 @@ Design the potato-field grid environment and state the search problem formally.
 - [x] Start `(6, 1)` and goal `(6, 16)` verified traversable by construction (`Field.__post_init__`) and by tests.
 - [x] Blocked-cell entry raises `ValueError`; out-of-bounds cells never yielded by `neighbors()` — tested.
 - [x] Step cost ≥ 1.0 for all legal cells (admissibility requirement) — asserted across full grid.
-- [x] 52 / 52 tests pass (`python3 -m unittest tests/test_field_scenario.py -v`).
+- [x] 54 field-scenario test methods are covered by the full suite; all 115 repository tests pass.
 
 ## Formal problem summary
 

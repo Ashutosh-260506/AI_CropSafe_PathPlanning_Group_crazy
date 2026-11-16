@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import math
 from typing import Iterable
 
 Position = tuple[int, int]
@@ -12,8 +13,8 @@ Position = tuple[int, int]
 class Field:
     """A rectangular four-connected field.
 
-    Protected cells are forbidden. Cells adjacent to a protected cell receive
-    a configurable nonnegative risk surcharge to encourage crop clearance.
+    Crop-row, protected, and obstacle cells are forbidden. Traversable cells
+    adjacent to a protected cell receive a configurable nonnegative surcharge.
     """
 
     height: int
@@ -28,8 +29,8 @@ class Field:
     def __post_init__(self) -> None:
         if self.height <= 0 or self.width <= 0:
             raise ValueError("Field dimensions must be positive")
-        if self.risk_penalty < 0:
-            raise ValueError("risk_penalty must be nonnegative")
+        if not math.isfinite(self.risk_penalty) or self.risk_penalty < 0:
+            raise ValueError("risk_penalty must be finite and nonnegative")
         for position in {self.start, self.goal} | self.crop_rows | self.protected | self.obstacles:
             if not self.in_bounds(position):
                 raise ValueError(f"Position outside field: {position}")
@@ -38,7 +39,7 @@ class Field:
 
     @property
     def blocked(self) -> set[Position]:
-        return self.protected | self.obstacles
+        return self.crop_rows | self.protected | self.obstacles
 
     def in_bounds(self, position: Position) -> bool:
         row, col = position
@@ -80,11 +81,12 @@ def demo_field(*, known_map: bool = False) -> Field:
     obstacle returned by :func:`demo_unknown_obstacle` is withheld from it.
     """
     del known_map
-    protected = {(r, c) for r in (3, 8) for c in range(2, 16)}
-    crop_rows = {(r, c) for r in (3, 8) for c in range(1, 17)}
-    obstacles = {(5, 5), (6, 5), (5, 12), (6, 12)}
-    return Field(12, 18, (6, 1), (6, 16), crop_rows, protected, obstacles, risk_penalty=2.0)
+    from .field_scenario import make_field
+
+    return make_field()
 
 
 def demo_unknown_obstacle() -> Position:
-    return (10, 9)
+    from .field_scenario import FIELD_CONFIG
+
+    return FIELD_CONFIG["hidden_obstacle"]

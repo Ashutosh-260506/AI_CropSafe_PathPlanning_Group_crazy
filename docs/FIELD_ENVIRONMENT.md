@@ -38,7 +38,7 @@ Every cell in the grid belongs to exactly one of the categories below.
 | Expanded / visited cell | `·` | ✅ Yes | Cell opened during search but not on final path (visualisation only). |
 
 > [!IMPORTANT]
-> `blocked = protected ∪ obstacles`.  
+> `blocked = crop_rows ∪ protected ∪ obstacles`.
 > Neither the **start** nor the **goal** may be blocked.  
 > A cell that is both a crop row **and** a protected cell is rendered as protected (more restrictive).
 
@@ -46,7 +46,7 @@ Every cell in the grid belongs to exactly one of the categories below.
 
 ## 3. Sample Field Configuration (Shared Scenario)
 
-All algorithms use the same **12 × 18** field defined in `model.py → demo_field()`.
+All algorithms use the same **12 × 18** field defined in `field_scenario.py → FIELD_CONFIG`.
 
 ```
 Grid size:   12 rows × 18 columns   (height=12, width=18)
@@ -69,7 +69,7 @@ crop_rows = {(r, c) for r in (3, 8) for c in range(1, 17)}
 
 ### 3.2 Protected Cells (Safety Buffers)
 
-The one-cell-wide safe-margin is placed along the **same rows** but over the full column extent that the search model enforces as blocked:
+Protected cells are a subset of the blocked crop rows. They also define the cells whose neighboring traversable aisles receive a risk surcharge:
 
 | Buffer | Rows | Columns |
 |--------|------|---------|
@@ -81,7 +81,7 @@ protected = {(r, c) for r in (3, 8) for c in range(2, 16)}
 ```
 
 > [!NOTE]
-> `protected ⊂ crop_rows` for the demo field. In general the two sets are independent: `crop_rows` is used for colour-coding in the visualiser, while `protected` determines which cells are blocked.
+> `protected ⊂ crop_rows` for the demo field. Both sets are blocked. `crop_rows` identifies the full planting band; the `protected` subset also determines which neighboring aisle cells receive the risk surcharge.
 
 ### 3.3 Known Obstacles
 
@@ -160,7 +160,7 @@ Column indices:
 A **state** is a grid cell `(row, col)` that is traversable (not blocked, within bounds).  
 The total number of states is at most `height × width − |blocked|`.
 
-For the demo field: `12 × 18 − |protected ∪ obstacles| = 216 − (28 + 4) = 184` reachable states.
+For the demo field: `12 × 18 − |crop_rows ∪ obstacles| = 216 − (32 + 4) = 180` traversable states.
 
 ### 5.2 Initial State
 
@@ -273,8 +273,8 @@ Field(
     width=18,             # number of columns
     start=(6, 1),         # (row, col) — robot start
     goal=(6, 16),         # (row, col) — robot goal
-    crop_rows=set(...),   # visual annotation only (colour in SVG)
-    protected=set(...),   # blocked cells — safety buffer
+    crop_rows=set(...),   # planting cells; blocked and shown in SVG
+    protected=set(...),   # blocked crop cells; adjacent aisles receive risk cost
     obstacles=set(...),   # blocked cells — static obstacles
     risk_penalty=2.0,     # extra cost when adjacent to protected
 )
@@ -285,7 +285,7 @@ Field(
 | Method | Purpose |
 |--------|---------|
 | `in_bounds(pos)` | Returns `True` if `pos` is within the grid. |
-| `blocked` (property) | Returns `protected ∪ obstacles`. |
+| `blocked` (property) | Returns `crop_rows ∪ protected ∪ obstacles`. |
 | `neighbors(pos)` | Yields legal 4-directional neighbours not in `blocked`. |
 | `step_cost(dest)` | Returns entry cost for `dest`; raises if `dest` is blocked. |
 | `with_obstacles(obs)` | Returns a new `Field` with a replaced obstacle set (used for replanning). |
@@ -296,7 +296,7 @@ Field(
 FieldMap(
     height=12,
     width=18,
-    blocked_cells=frozenset(protected | obstacles),
+    blocked_cells=frozenset(crop_rows | protected | obstacles),
 )
 ```
 
@@ -317,7 +317,7 @@ FieldMap(
 from cropsafe_pathplanning.model import demo_field, demo_unknown_obstacle
 from cropsafe_pathplanning.field_scenario import make_field_map, FIELD_CONFIG
 
-# Rich Field object (used by search.py algorithms)
+# Rich Field object (used by A*, evaluation, and replanning)
 field = demo_field()
 
 # FieldMap object (used by bfs_dfs.py and gbfs.py)

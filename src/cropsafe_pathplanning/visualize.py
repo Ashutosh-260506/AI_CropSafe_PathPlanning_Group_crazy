@@ -5,12 +5,12 @@ from __future__ import annotations
 from pathlib import Path
 
 from .model import Field, Position
-from .search import SearchResult
+from .evaluation import SearchSummary
 
 COLORS = {"ground": "#f5f2e9", "crop": "#4f8f4b", "protected": "#76a9d8", "obstacle": "#31343b", "detected": "#e6550d"}
 
 
-def _svg(field: Field, path: list[Position], output_path: Path, title: str, *, detected: list[Position] | None = None, routes: list[SearchResult] | None = None) -> None:
+def _svg(field: Field, path: list[Position], output_path: Path, title: str, *, detected: list[Position] | None = None, routes: list[SearchSummary] | None = None) -> None:
     cell, left, top = 42, 64, 70
     width, height = left + field.width * cell + 20, top + field.height * cell + 90
     elements = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">', '<rect width="100%" height="100%" fill="white"/>', f'<text x="{width/2}" y="34" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="bold">{title}</text>']
@@ -54,7 +54,7 @@ def _svg(field: Field, path: list[Position], output_path: Path, title: str, *, d
     output_path.write_text("\n".join(elements), encoding="utf-8")
 
 
-def save_field_plot(field: Field, results: list[SearchResult], output_path: Path, *, title: str = "Search algorithm routes") -> None:
+def save_field_plot(field: Field, results: list[SearchSummary], output_path: Path, *, title: str = "Search algorithm routes") -> None:
     _svg(field, [], output_path, title, routes=results)
 
 

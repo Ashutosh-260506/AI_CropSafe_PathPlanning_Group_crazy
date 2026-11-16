@@ -275,7 +275,7 @@ print("Both correctly detected unreachable goal ✓")
 
 ### Example 4 — Demo Field Scenario
 
-Uses Hitesh's shared `demo_field()` (12×18 grid, obstacles, protected crop rows):
+Uses Hitesh's shared `demo_field()` (12×18 grid, blocked crop rows, and obstacles):
 
 ```python
 from cropsafe_pathplanning.model import demo_field

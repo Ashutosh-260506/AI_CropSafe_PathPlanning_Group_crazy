@@ -180,6 +180,10 @@ def crop_safe_step_cost(
     Returns:
         Total transition cost as float.
     """
+    if not math.isfinite(risk_penalty) or risk_penalty < 0:
+        raise ValueError("risk_penalty must be finite and nonnegative")
+    if not math.isfinite(base_cost) or base_cost < 1.0:
+        raise ValueError("base_cost must be finite and at least 1.0 for the Manhattan heuristic")
     if destination in protected_cells:
         raise ValueError(f"Cannot calculate transition into protected cell {destination}")
     if is_adjacent_to_protected(destination, protected_cells):
@@ -362,6 +366,9 @@ def a_star_search(
     """
     started = perf_counter()
 
+    if risk_penalty is not None and (not math.isfinite(risk_penalty) or risk_penalty < 0):
+        raise ValueError("risk_penalty must be finite and nonnegative")
+
     # Resolve start and goal endpoints from field attributes if omitted
     resolved_start = start if start is not None else getattr(field, "start", None)
     resolved_goal = goal if goal is not None else getattr(field, "goal", None)
@@ -473,6 +480,8 @@ def a_star_search(
                 continue
 
             step = actual_cost_fn(current, neighbor)
+            if not math.isfinite(step) or step < 1.0:
+                raise ValueError("Every transition cost must be finite and at least 1.0 for the Manhattan heuristic")
             tentative_g = g_score[current] + step
 
             if tentative_g < g_score.get(neighbor, math.inf):

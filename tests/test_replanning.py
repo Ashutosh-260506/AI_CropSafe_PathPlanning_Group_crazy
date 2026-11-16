@@ -4,7 +4,7 @@ import unittest
 
 from cropsafe_pathplanning.model import demo_field, demo_unknown_obstacle
 from cropsafe_pathplanning.replanning import simulate_replanning
-from cropsafe_pathplanning.search import a_star_search
+from cropsafe_pathplanning.astar import a_star_search
 
 
 class ReplanningTests(unittest.TestCase):

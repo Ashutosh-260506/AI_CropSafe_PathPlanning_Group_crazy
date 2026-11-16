@@ -2,24 +2,30 @@
 
 > A grid-based simulation of an autonomous robot navigating a potato field while protecting crops, avoiding obstacles, and replanning when it discovers an unknown obstacle.
 
-> **Project status:** initial implementation. The command below generates fresh results and plots from the fixed demo field.
+> **Project status:** complete implementation. The command below runs all four search algorithms, simulates online replanning, and refreshes the reports and plots.
 
 ## Assignment goals
 
 The project follows the supplied Theory Coding Assignment. It will model a 2D field, formulate a search problem, implement BFS, DFS, Greedy Best-First Search, and A*, protect crop regions, simulate discovery of an unknown obstacle, and compare the algorithms.
 
-## Planned repository layout
+## Repository layout
 
 ```text
 .
 ├── README.md
 ├── requirements.txt
 ├── src/cropsafe_pathplanning/
+│   ├── field_scenario.py
 │   ├── model.py
-│   ├── search.py
+│   ├── types.py
+│   ├── bfs_dfs.py
+│   ├── gbfs.py
+│   ├── astar.py
+│   ├── evaluation.py
 │   ├── replanning.py
 │   ├── visualize.py
 │   └── __main__.py
+├── docs/
 ├── tests/
 ├── results/
 │   ├── algorithm_comparison.csv
@@ -30,24 +36,24 @@ The project follows the supplied Theory Coding Assignment. It will model a 2D fi
     ├── Hitesh.md
     ├── Dushyant.md
     ├── Ricky.md
-    ├── Aashutosh.md
+    ├── Ashutosh.md
     └── Sharad.md
 ```
 
-The `src` and `tests` directories are reserved for implementation and validation. Keep algorithms separate from field data, visualization, and evaluation so each algorithm can be compared on the same scenarios.
+All algorithms share `(row, column)` coordinates and the single scenario from `field_scenario.py`. `evaluation.py` adapts search results for comparison, while `replanning.py` calls the submitted A* module for online obstacle recovery.
 
-## Planned model and design
+## Model and design
 
 - Represent each traversable location as a grid coordinate `(row, column)`.
 - Use four-directional movement (up, down, left, right) initially. Manhattan distance is suitable as a lower bound when each move costs at least one.
 - Keep the true field map separate from the robot's known map. At least one obstacle begins hidden from the robot; when detected, update its known map and replan with A*.
-- Treat crop-protection cells and known obstacles as blocked. Model a configurable safety buffer or proximity penalty around protected crop regions, and document its route-cost effect.
+- Treat crop rows, protected cells, and known obstacles as blocked. Add a configurable proximity penalty to legal cells adjacent to protected crops; A* validates cost values against the Manhattan heuristic assumptions.
 - Return comparable run data from each search: path, path cost/length, expanded-node count, elapsed time, and reached-goal status. Record replanning count for the dynamic-obstacle run.
 - Fix and document scenario inputs when comparing algorithms. Report measured results rather than predicted performance.
 
 ## Requirements
 
-Python 3.10 or newer is recommended. The implementation uses only the Python standard library, including for SVG visualization. `requirements.txt` is retained for future runtime packages.
+Python 3.10 or newer is recommended. The implementation and tests use only the Python standard library, including for SVG visualization.
 
 ## Setup and run
 
@@ -90,7 +96,7 @@ python -m cropsafe_pathplanning
 
 The run prints a comparison table and writes `results/algorithm_comparison.csv`, `results/replanning_summary.csv`, and SVG figures under `results/screenshots/`.
 
-Run the focused replanning checks with:
+Run the full test suite with:
 
 ```bash
 PYTHONPATH=src python -m unittest discover -s tests -v
@@ -103,20 +109,20 @@ PYTHONPATH=src python -m unittest discover -s tests -v
 - **Greedy Best-First Search:** prioritizes estimated distance to the goal; it can be fast but is not generally cost-optimal.
 - **A\*:** prioritizes `g(n) + h(n)`, where `g` is cost so far and `h` estimates remaining cost. For four-directional movement, use Manhattan distance as the base heuristic. If risk penalties are nonnegative, this base movement-distance heuristic remains a lower bound; document the cost model and optimality assumptions.
 
-The demo includes a 12×18 field with protected crop bands and a fixed set of known obstacles. Its online experiment adds an obstacle at `(10, 9)` that is initially absent from the robot's map. When the planned route reaches it, the robot detects it, updates the map, and replans from its current position. The generated comparison table uses a single fixed scenario; execution times are machine-dependent and should be treated as one-run measurements, not stable performance claims. SVG figures belong in `results/screenshots/`.
+The demo includes a 12×18 field with blocked crop bands, protected cells, and fixed known obstacles. All four algorithms run against the same known map. The online experiment uses the submitted A* module to detect obstacle `(10, 9)`, update the known map, and replan from the robot's current position. Execution times are machine-dependent one-run measurements. SVG figures belong in `results/screenshots/`.
 
 ### Sample run
 
-The checked-in CSV files and figures are generated by the command above. In the current sample run, all four algorithms reached the goal; A* found the lowest-cost route under the crop-risk cost model. BFS found a shorter route by step count, which is expected because BFS optimizes steps rather than weighted risk cost. The online experiment detected the hidden obstacle and replanned once, then reached the goal. Timing values are recorded in `results/algorithm_comparison.csv` and will vary by machine and run.
+The checked-in CSV files and figures are generated by the command above. In the current sample run, all four algorithms reached the goal; A* found the lowest-cost route under the crop-risk cost model. BFS found the shortest route by step count, which is expected because BFS optimizes steps rather than weighted risk cost. The online experiment detected the hidden obstacle and replanned once, then reached the goal. Timings are recorded in `results/algorithm_comparison.csv` and vary by machine and run.
 
 | Algorithm | Path steps | Path cost | Expanded nodes | Reached goal |
 |---|---:|---:|---:|---|
-| BFS | 17 | 37.00 | 151 | Yes |
-| DFS | 29 | 31.00 | 140 | Yes |
+| BFS | 17 | 41.00 | 140 | Yes |
+| DFS | 43 | 65.00 | 156 | Yes |
 | Greedy | 19 | 31.00 | 22 | Yes |
-| A* | 23 | 27.00 | 110 | Yes |
+| A* | 27 | 27.00 | 111 | Yes |
 
-Online obstacle: detected `(10, 9)`, 1 replan, 25 steps total, goal reached.
+Online obstacle: detected `(10, 9)`, 1 replan, 29 steps total, goal reached.
 
 ## Team assignments and contribution scores
 

@@ -28,9 +28,10 @@ Own the unknown-obstacle simulation and A* replanning (Member 5), plus integrati
 - [x] Evaluation records path length/cost, expanded nodes, execution time, goal status, and replanning count.
 - [x] Field/path visualizations and CSV summaries are generated from the documented demo command.
 - [x] README includes setup, run, output, and focused test instructions.
-- [ ] Team integration review remains for when teammates deliver their assigned modules.
-- [ ] Add official names and roll numbers when provided; score contribution after the team reviews completed work.
+- [x] Integrated the submitted BFS, DFS, Greedy, and A* implementations through the common evaluation runner.
+- [x] Ran the full suite: 115 tests pass; refreshed the algorithm/replanning CSVs and SVG figures.
+- [ ] Add official names and roll numbers when the group provides them; contribution score remains provisional pending presentation review.
 
 ## Contribution score
 
-Pending review: ___ / 100. Record reviewer and evidence in `TEAM_TASKS.md` after completion.
+Provisional repository score: 95 / 100. Evidence and rubric are recorded in `TEAM_TASKS.md`.
